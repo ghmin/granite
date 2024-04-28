@@ -111,8 +111,8 @@ public class SocketMessageReceiver extends IoHandlerAdapter implements IClientMe
 	}
 
 	protected int getDefaultPort() {
-//		return 5222;
-		return 10222;
+		return 5222;
+//		return 10222;
 	}
 
 	@Override

@@ -824,7 +824,7 @@
         <!--                        <url>http://120.25.166.188:9090/repository/maven-releases/</url>-->
         <!--                </repository>-->
         <repository>
-            <id>life.cnart.releases</id>
+            <id>repo-cnart</id>
             <name>cnart内部仓库</name>
             <url>http://192.168.50.244:13081/repository/maven-releases/</url>
         </repository>
