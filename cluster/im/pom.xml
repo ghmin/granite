@@ -25,9 +25,13 @@
 			<groupId>com.thefirstlineofcode.granite</groupId>
 			<artifactId>granite-im</artifactId>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.thefirstlineofcode.granite.framework.adf</groupId>-->
+<!--			<artifactId>granite-framework-adf-mongodb</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.thefirstlineofcode.granite.framework.adf</groupId>
-			<artifactId>granite-framework-adf-mongodb</artifactId>
+			<artifactId>granite-framework-adf-mybatis</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -399,7 +399,16 @@ public class NodeUtils {
 	}
 
 	private static void addJava17VMParametersForIgnite(List<String> cmdList) {
-		throw new UnsupportedOperationException("Run in Java17 not supported yet!");
+//		throw new UnsupportedOperationException("Run in Java17 not supported yet!");
+		cmdList.add("--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.base/sun.nio.ch=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED");
+		cmdList.add("--add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED");
+		cmdList.add("--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.io=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.nio=ALL-UNNAMED");
+		cmdList.add("--illegal-access=permit");
 	}
 
 	private static void addJava11VMParametersForIgnite(List<String> cmdList) {
@@ -409,6 +418,8 @@ public class NodeUtils {
 		cmdList.add("--add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED");
 		cmdList.add("--add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED");
 		cmdList.add("--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.io=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.nio=ALL-UNNAMED");
 		cmdList.add("--illegal-access=permit");
 	}
 }

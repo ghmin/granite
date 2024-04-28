@@ -79,6 +79,7 @@ public abstract class AbstractOptionsTool<T extends OptionsBase> {
 				configurationDirPath = new File(homeDirPath).getParent() + "/configuration";
 			}
 		}
+		configurationDirPath=configurationDirPath.replaceAll("/+","/");
 		commandLineOptions.put(OPTION_NAME_CONFIGURATION_DIR, configurationDirPath);
 		
 		File configurationDir = new File(configurationDirPath);
@@ -102,11 +103,17 @@ public abstract class AbstractOptionsTool<T extends OptionsBase> {
 			
 			int lastSlashIndex = jarPath.lastIndexOf('/');
 			String jarParentDirPath = jarPath.substring(6, lastSlashIndex);
-			
+			if(jarParentDirPath.indexOf('/')!=0){
+				jarParentDirPath=String.format("/%s",jarParentDirPath);
+			}
 			return jarParentDirPath;
 		} else {
 			int targetIndex = classPathRoot.getPath().lastIndexOf("/target");	
-			return classPathRoot.getPath().substring(0, targetIndex + 7);
+			String thePath=classPathRoot.getPath().substring(0, targetIndex + 7);
+			if(thePath.indexOf('/')!=0){
+				thePath=String.format("/%s",thePath);
+			}
+			return thePath;
 		}
 	}
 

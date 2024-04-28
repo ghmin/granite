@@ -31,7 +31,8 @@ import com.thefirstlineofcode.granite.framework.core.config.IServerConfiguration
 
 @Extension
 @Configuration
-public class DbaLiteConfiguration implements ISpringConfiguration, IServerConfigurationAware, IApplicationComponentServiceAware {
+public class DbaLiteConfiguration implements ISpringConfiguration,
+		IServerConfigurationAware, IApplicationComponentServiceAware {
 	private int hSqlPort;
 	private IApplicationComponentService appComponentService;
 	

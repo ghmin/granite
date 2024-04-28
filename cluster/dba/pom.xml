@@ -17,9 +17,22 @@
 	<name>Granite cluster DBA implementation</name>
 
 	<dependencies>
+<!--		<dependency>-->
+<!--			<groupId>com.thefirstlineofcode.granite.framework.adf</groupId>-->
+<!--			<artifactId>granite-framework-adf-mongodb</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.thefirstlineofcode.granite.framework.adf</groupId>
-			<artifactId>granite-framework-adf-mongodb</artifactId>
+			<artifactId>granite-framework-adf-mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+		<!-- https://mavenlibs.com/maven/dependency/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 		</dependency>
 	</dependencies>
 

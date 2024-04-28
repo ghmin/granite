@@ -23,7 +23,8 @@ public class Options extends OptionsBase {
 		rtDebug = false;
 		rtDebugPort = 8020;
 		rtLogEnableThirdparties = false;
-		rtConsole = false;
+//		rtConsole = false;
+		rtConsole = true;
 	}
 	
 	public String getMgtnodeIp() {

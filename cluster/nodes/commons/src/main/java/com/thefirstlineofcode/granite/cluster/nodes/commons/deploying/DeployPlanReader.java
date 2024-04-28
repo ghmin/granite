@@ -20,6 +20,7 @@ public class DeployPlanReader implements IDeployPlanReader {
 	private static final String PROPERTY_NAME_PASSWORD = "password";
 	private static final String PROPERTY_NAME_USERNAME = "user-name";
 	private static final String PROPERTY_NAME_ADDRESSES = "addresses";
+	private static final String PROPERTY_NAME_DB_URL = "url";
 	private static final String PROPERTY_NAME_PROTOCOLS = "protocols";
 	private static final String PROPERTY_NAME_ABILITIES = "abilities";
 	private static final String SECTION_NAME_DB = "db";
@@ -261,9 +262,13 @@ public class DeployPlanReader implements IDeployPlanReader {
 				db.setUserName((String)entry.getValue());
 			} else if (PROPERTY_NAME_PASSWORD.equals(key)) {
 				db.setPassword(((String)entry.getValue()).getBytes());
-			} else if (PROPERTY_NAME_DB_NAME.equals(key)) {
+			}
+			else if (PROPERTY_NAME_DB_NAME.equals(key)) {
 				db.setDbName((String)entry.getValue());
-			} else {
+			}else if (PROPERTY_NAME_DB_URL.equals(key)) {
+				db.setUrl((String)entry.getValue());
+			}
+			else {
 				throw new DeployPlanException(String.format("Invalid property in 'db' section. Property name: %s.", key));
 			}
 		}

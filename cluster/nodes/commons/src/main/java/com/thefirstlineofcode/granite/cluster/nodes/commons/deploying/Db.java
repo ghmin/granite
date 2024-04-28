@@ -9,7 +9,16 @@ public class Db {
 	private String userName;
 	private byte[] password;
 	private String dbName;
-	
+	private String url;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public Db() {
 		this((String)null);
 	}

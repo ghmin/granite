@@ -63,9 +63,11 @@ public class Starter {
 				}
 				
 				try {
-					downloadDeployPlanFile(mgtnodeIpAndDeployPlanChecksum.mgtnodeIp, options.getMgtnodeHttpPort(),
+					downloadDeployPlanFile(mgtnodeIpAndDeployPlanChecksum.mgtnodeIp,
+							options.getMgtnodeHttpPort(),
 							options.getConfigurationDir());
-					saveDeployPlanChecksum(mgtnodeIpAndDeployPlanChecksum.deployPlanChecksum, options.getConfigurationDir());
+					saveDeployPlanChecksum(mgtnodeIpAndDeployPlanChecksum.deployPlanChecksum,
+							options.getConfigurationDir());
 				} catch (IOException e) {
 					throw new RuntimeException("Can't download deploy plan file.", e);
 				}
@@ -81,9 +83,14 @@ public class Starter {
 		}
 		
 		String runtimeName = getRuntimeName(plan.getChecksum(nodeType));
-		
-		if ((!isLocalRuntimeZipExisted(options.getRuntimesDir(), runtimeName) || options.isRedeploy()) && mgtnodeIpAndDeployPlanChecksum != null) {
-			downloadRuntimeZip(mgtnodeIpAndDeployPlanChecksum.mgtnodeIp, options.getMgtnodeHttpPort(), options.getRuntimesDir(), runtimeName);
+		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
+		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
+		runtimeName="rt-0x740x950x720x330x440xfb0x610x2f0xf80x790xc40x5d0x2e0xb30xa70x0";
+		if ((!isLocalRuntimeZipExisted(options.getRuntimesDir(), runtimeName) || options.isRedeploy())
+				&& mgtnodeIpAndDeployPlanChecksum != null) {
+			downloadRuntimeZip(mgtnodeIpAndDeployPlanChecksum.mgtnodeIp,
+					options.getMgtnodeHttpPort(),
+					options.getRuntimesDir(), runtimeName);
 			unzipLocalRuntime(options.getRuntimesDir(), runtimeName);
 		}
 		
@@ -212,7 +219,8 @@ public class Starter {
 		
 		cmdList.add("-Dgranite.deploy.plan.file=" + new File(options.getConfigurationDir(), FILE_NAME_DEPLOY_PLAN).getPath());
 		cmdList.add("-Dgranite.node.type=" + nodeType);
-		
+		cmdList.add("--add-opens=java.base/java.io=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.nio=ALL-UNNAMED");
 		if (mgtnodeIp != null) {
 			cmdList.add("-Dgranite.mgtnode.ip=" + mgtnodeIp);
 		}
@@ -312,7 +320,14 @@ public class Starter {
 		InputStream in = null;
 		BufferedOutputStream out = null;
 		try {
-			URL url = new URL("HTTP", address, port, "/runtimes/" + runtimeZipName);
+			final String downloadUrl=String.format("http://%s:%d/runtimes/%s",
+					address,
+					port,runtimeZipName);
+			logger.info("try download:{}",
+					downloadUrl);
+//			URL url = new URL("HTTP", address, port,
+//					"/runtimes/" + runtimeZipName);
+			URL url=new URL(downloadUrl);
 			in = new BufferedInputStream(url.openStream());
 			
 			if (!localRuntimeZip.getParentFile().exists()) {
@@ -354,7 +369,8 @@ public class Starter {
 				}
 			}
 			
-			int consoleDownloadingProgressStringLen = "Downloaded: ".length() + lastProgressStringLen;
+			int consoleDownloadingProgressStringLen = "Downloaded: ".length() +
+					lastProgressStringLen;
 			for (int i = 0; i < consoleDownloadingProgressStringLen; i++) {
 				System.out.print("\b");
 			}
