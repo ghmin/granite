@@ -51,6 +51,7 @@ public class DeployPlan {
 		String[] nodeTypeStrings = new String[nodeTypes.size()];
 		
 		int i = 0;
+		// cnart.life|[Ljava.lang.String;@cb0ed20-300|xml-abilities[event,stream,processing]|protocols[ibr,pin]
 		for (NodeType nodeType : nodeTypes.values()) {
 			nodeTypeStrings[i++] = nodeType.toString();
 		}

@@ -209,6 +209,7 @@ public class NodeUtils {
 	
 	public static String getChecksum(String string) {	
 		MessageDigest md = null;
+		logger.info("get check sum, origin string:{}",string);
 		try {
 			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {

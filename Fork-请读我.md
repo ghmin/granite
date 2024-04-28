@@ -14,13 +14,6 @@ mvn clean package install
 >>```
 >>cd pack/cluster-mgtnode/target
 >>java -jar granite-pack-cluster-mgtnode-1.0.5-RELEASE.jar
->>
->>
->>cd granite
->>cd pack/cluster-mgtnode
->>mvn clean package
->>cd target
->>java -jar granite-pack-cluster-mgtnode-1.0.5-RELEASE.jar
 >>```
 在target目录下会看到打包好的granite-cluster-nodes-mgtnode-1.0.5-RELEASE.zip。
 
@@ -44,6 +37,7 @@ cluster下的：
 
 执行：
 
-
-appnode：
+mgtNode:
+java -jar granite-cluster-nodes-mgtnode-1.0.5-RELEASE.jar
+appNode：
 java -jar granite-cluster-nodes-appnode-1.0.5-RELEASE.jar  --mgtnode-ip=192.168.50.94 --mgtnode-http-port=8090 --rt-console=true --configuration-dir=configuration --runtimes-dir=runtimes

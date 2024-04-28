@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.cluster.ClusterGroup;
 import org.apache.ignite.cluster.ClusterNode;
@@ -46,13 +47,17 @@ public class Starter {
 		preconfigureIgnite(options);
 		
 		MgtnodeIpAndDeployPlanChecksum mgtnodeIpAndDeployPlanChecksum = null;
+		logger.info("options is:");
+		logger.info(JSONObject.toJSONString(options));
 		if (!options.isNoDeploy()) {
 			mgtnodeIpAndDeployPlanChecksum = getMgtnodeIpAndDeployChecksum(options);
-			
+			logger.info("has deploy: mgt checksum:");
+			logger.info(JSONObject.toJSONString(mgtnodeIpAndDeployPlanChecksum));
 			if (options.isRedeploy())
 				removeLocalDeployPlanCheckSum(options.getConfigurationDir());
 			
 			String localDeployPlanChecksum = getLocalDeployPlanChecksum(options.getConfigurationDir());
+			logger.info("local check sum:{}",localDeployPlanChecksum);
 			if (mgtnodeIpAndDeployPlanChecksum != null &&
 					mgtnodeIpAndDeployPlanChecksum.deployPlanChecksum != null &&
 					!mgtnodeIpAndDeployPlanChecksum.deployPlanChecksum.equals(localDeployPlanChecksum)) {
@@ -77,15 +82,22 @@ public class Starter {
 		}
 		
 		DeployPlan plan = readDeployPlan(options);
+		logger.info("deploy plan::");
+//		plan.getChecksum()
+		String tmp= JSONObject.toJSONString(plan);
+		logger.info(tmp);
 		String nodeType = getNodeType(options, plan);
 		if (nodeType == null) {
 			throw new RuntimeException("Can't determine which node type the appnode is. Please check your deploy plan.");
 		}
-		
-		String runtimeName = getRuntimeName(plan.getChecksum(nodeType));
-		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
-		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
-		runtimeName="rt-0x740x950x720x330x440xfb0x610x2f0xf80x790xc40x5d0x2e0xb30xa70x0";
+
+		final String runtimeCheckSum=plan.getChecksum(nodeType);
+		String runtimeName = getRuntimeName(runtimeCheckSum);
+		logger.info("Ready to count appnode runtime[{}]. Runtime checksum is {}.", nodeType, runtimeCheckSum);
+//		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
+//		runtimeName="rt-0x120x990x270x580xdc0xfa0x0f0x550xce0x380x230xfd0xf90x510xa20x3";
+//		runtimeName="rt-0x740x950x720x330x440xfb0x610x2f0xf80x790xc40x5d0x2e0xb30xa70x0";
+//		runtimeName="rt-0x380x820x390xa10x7e0x9d0x6f0x440xa00x520x6d0x970xb30xd60x4e0xb";
 		if ((!isLocalRuntimeZipExisted(options.getRuntimesDir(), runtimeName) || options.isRedeploy())
 				&& mgtnodeIpAndDeployPlanChecksum != null) {
 			downloadRuntimeZip(mgtnodeIpAndDeployPlanChecksum.mgtnodeIp,
@@ -158,8 +170,9 @@ public class Starter {
 		
 		if (deployPlanChecksum == null)
 			logger.info("Can't connect to management node. Ignore to download deploy plan checksum file.");
-		else
-			logger.info("Deploy plan checksum file has downloaded.");
+		else {
+			logger.info("Deploy plan checksum file has downloaded. ");
+		}
 		
 		return deployPlanChecksum == null ? null : new MgtnodeIpAndDeployPlanChecksum(validMgtnodeIp, deployPlanChecksum);
 	}
@@ -219,8 +232,17 @@ public class Starter {
 		
 		cmdList.add("-Dgranite.deploy.plan.file=" + new File(options.getConfigurationDir(), FILE_NAME_DEPLOY_PLAN).getPath());
 		cmdList.add("-Dgranite.node.type=" + nodeType);
+		cmdList.add("--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.base/sun.nio.ch=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED");
+		cmdList.add("--add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED");
+		cmdList.add("--add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED");
+		cmdList.add("--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED");
 		cmdList.add("--add-opens=java.base/java.io=ALL-UNNAMED");
 		cmdList.add("--add-opens=java.base/java.nio=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/sun.nio.ch=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.util=ALL-UNNAMED");
+		cmdList.add("--add-opens=java.base/java.lang=ALL-UNNAMED");
 		if (mgtnodeIp != null) {
 			cmdList.add("-Dgranite.mgtnode.ip=" + mgtnodeIp);
 		}

@@ -22,6 +22,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +45,7 @@ import javax.sql.DataSource;
 public class DbaClusterConfiguration implements ISpringConfiguration,
 		IServerConfigurationAware, IApplicationComponentServiceAware {
 	private String configurationDir;
+	static final Logger logger= LoggerFactory.getLogger("DbaClusterConfig");
 
 	private String dbName;
 
@@ -81,6 +84,8 @@ public class DbaClusterConfiguration implements ISpringConfiguration,
 			String password = properties.getProperty("password");
 			String url = properties.getProperty("url");
 
+			logger.info("配置：{}",properties);
+
 			if (dbName == null) {
 				throw new RuntimeException("Invalid DB configuration. DB name is null.");
 			}
@@ -98,7 +103,16 @@ public class DbaClusterConfiguration implements ISpringConfiguration,
 
 			this.dbName = dbName;
 
-			dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+//			dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+			if(url==null){}else{
+//				dataSource.setDriverClass("org.postgresql.Driver");
+				if(url.toLowerCase().contains("jdbc:postgresql:")){
+					dataSource.setDriverClassName("org.postgresql.Driver");
+				}else{
+					dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+				}
+			}
+//			dataSource.setDriverClassName("org.postgresql.Driver");
 			//- 	String url = "jdbc:postgresql://localhost:5432/test";
 			dataSource.setUrl(url.trim());
 			dataSource.setUsername(userName);

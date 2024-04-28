@@ -20,7 +20,7 @@ public class DataObjectFactory implements IDataObjectFactory, IInitializable, IA
 	private IApplicationComponentService appComponentService;
 	private Map<Class<?>, Class<?>> dataObjectMappings;
 	private volatile boolean inited;
-
+	org.springframework.jdbc.datasource.init.DatabasePopulator t;
 	public DataObjectFactory() {
 		inited = false;
 		dataObjectMappings = new HashMap<>();

@@ -2,14 +2,18 @@ package com.thefirstlineofcode.granite.cluster.nodes.mgtnode.deploying.pack.modu
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.thefirstlineofcode.granite.cluster.nodes.commons.deploying.DbAddress;
 import com.thefirstlineofcode.granite.cluster.nodes.commons.deploying.DeployPlan;
 import com.thefirstlineofcode.granite.cluster.nodes.mgtnode.deploying.pack.IPackConfigurator;
 import com.thefirstlineofcode.granite.cluster.nodes.mgtnode.deploying.pack.IPackContext;
 import com.thefirstlineofcode.granite.cluster.nodes.mgtnode.deploying.pack.config.IConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AppDbaConfigurator implements IPackConfigurator {
 
+	final Logger logger= LoggerFactory.getLogger(FILE_NAME_DB_INI);
 	private static final String FILE_NAME_DB_INI = "db.ini";
 
 	@Override
@@ -20,6 +24,11 @@ public class AppDbaConfigurator implements IPackConfigurator {
 		dbConfig.addOrUpdateProperty("db.name", deployPlan.getDb().getDbName());
 		dbConfig.addOrUpdateProperty("user.name", deployPlan.getDb().getUserName());
 		dbConfig.addOrUpdateProperty("password", new String(deployPlan.getDb().getPassword()));
+		dbConfig.addOrUpdateProperty("url", new String(deployPlan.getDb().getUrl()));
+		logger.info("config path:{}",dbConfig.getConfigPath().toAbsolutePath());
+		logger.info("config content:{}", JSONObject.toJSONString(deployPlan));
+//		logger.info(dbConfig.setContent(););
+
 	}
 
 	private String getDbAddressesString(List<DbAddress> addresses) {

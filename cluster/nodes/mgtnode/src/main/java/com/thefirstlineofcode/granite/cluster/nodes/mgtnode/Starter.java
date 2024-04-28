@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONWriter;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
@@ -220,6 +222,9 @@ public class Starter {
 	private void packAppnodeRuntimes(Options options, DeployPlan deployPlan) {
 		IAppnodeRuntimesPacker deployer = new AppnodeRuntimesPacker(options);
 		for (String nodeType : deployPlan.getNodeTypes().keySet()) {
+			logger.info("deploy plan::");
+			String tmp= JSONObject.toJSONString(deployPlan);
+			logger.info(tmp);
 			String checksum = deployPlan.getChecksum(nodeType);
 			String appnodeRuntimeName = getAppnodeRuntimeName(checksum);
 			
